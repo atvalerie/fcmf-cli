@@ -170,3 +170,22 @@ interface FlaxCollectionManifest {
     albums: Album[];
     tracks: Track[];
 }
+
+export type {
+  ArtistIds,
+  AlbumIds,
+  TrackIds,
+  ArtistReference,
+  AlbumReference,
+  TrackReference,
+  ArtistSocials,
+  QualityMetadata,
+  LeakMetadata,
+  DirectLink,
+  Lyrics,
+  Artist,
+  Album,
+  Track,
+  Encryption,
+  FlaxCollectionManifest
+};
