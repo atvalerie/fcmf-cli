@@ -18,17 +18,13 @@ export function getLogLevel(): LogLevel {
   return "3" as unknown as LogLevel;
 }
 
-const getTimestamp = () => {
-  return new Date().toISOString().slice(0, 19).replace("T", " ");
-};
-
 const formatLog = (
   level: string,
   color: any,
   message: string,
   messageColor: any,
 ) => {
-  return `${ansis.dim`${getTimestamp()}`} ${color.bold`${level}`} ${messageColor(message)}`;
+  return `${color.bold`${level}`} ${messageColor(message)}`;
 };
 
 const logDebug = (message: string) => {

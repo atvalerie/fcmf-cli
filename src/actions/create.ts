@@ -1,18 +1,47 @@
-import { logDebug } from "../logging/index.js";
+import { logDebug, logError, logInfo } from "../logging/index.js";
+
+import { input } from "@inquirer/prompts";
+import fs from "fs/promises";
 
 export default async function create(path: string, options: { authorid?: string; link?: string; projectlink?: string }) {
   logDebug(`Path provided: ${path}`);
+  logDebug(`Options provided: ${JSON.stringify(options, null, 2)}`);
 
-  if (options.authorid) {
-    logDebug(`Author ID provided: ${options.authorid}`);
+  if (path) {
+    logDebug(`Checking if file already exists at path: ${path}`);
+
+    try {
+      const fileExists = await fs.access(path);
+
+      if (fileExists === undefined) {
+        logError(`File already exists at path: ${path}. Please choose a different path or delete the existing file.`);
+        return;
+      }
+    } catch (err) {
+      // actually good because that means we can create the file
+      logDebug(`No existing file found at path: ${path}. Proceeding with manifest creation.`);
+    }
   }
 
-  if (options.link) {
-    logDebug(`Manifest link provided: ${options.link}`);
+  if (!options.authorid) {
+    options.authorid = await input({
+      message: "Enter an author ID/username for the manifest (optional - up to 32 characters, will be generated if left blank):",
+    });
+    logDebug(`Author ID entered: ${options.authorid}`);
   }
 
-  if (options.projectlink) {
-    logDebug(`Project link provided: ${options.projectlink}`);
+  if (!options.link) {
+    options.link = await input({
+      message: "Enter a link to the manifest (optional, can be left blank):",
+    });
+    logDebug(`Manifest link entered: ${options.link}`);
+  }
+
+  if (!options.projectlink) {
+    options.projectlink = await input({
+      message: "Enter a project link/discord server/website/email for the manifest (ANYTHING that can be used to reach the author, optional, can be left blank):",
+    });
+    logDebug(`Project link entered: ${options.projectlink}`);
   }
 
   const manifest = {
@@ -28,5 +57,15 @@ export default async function create(path: string, options: { authorid?: string;
     tracks: [],
   };
 
-  logDebug(`Generated manifest: ${JSON.stringify(manifest)}`);
+  if (path) {
+    try {
+      await fs.writeFile(path, JSON.stringify(manifest, null, 2));
+      logInfo(`Manifest successfully written to file at path: ${path}`);
+    } catch (err) {
+      logError(`Error writing manifest to file at path: ${path}. Error: ${(err as Error).message}`);
+    }
+  } else {
+    logInfo("No path provided, outputting manifest content to console:");
+    console.log(JSON.stringify(manifest, null, 2));
+  }
 }
