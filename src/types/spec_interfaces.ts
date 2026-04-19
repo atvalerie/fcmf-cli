@@ -1,3 +1,5 @@
+export const MANIFEST_VERSION = "0.3.1" as const;
+
 interface ArtistIds {
     isni?: string;
     tidalId?: string;
@@ -158,7 +160,7 @@ interface Encryption {
 }
 
 interface FlaxCollectionManifest {
-    version: "0.3.1";
+    version: typeof MANIFEST_VERSION;
     collectionAuthorId?: string;
     collectionId: string;
     collectionLink?: string;
@@ -189,3 +191,4 @@ export type {
   Encryption,
   FlaxCollectionManifest
 };
+
