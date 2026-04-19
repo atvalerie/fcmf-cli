@@ -3,6 +3,7 @@ import { logDebug, logError, logInfo } from "../logging/index.js";
 import { input } from "@inquirer/prompts";
 import fs from "fs/promises";
 import { questionTheme } from "../logging/theme.js";
+import { log } from "console";
 
 export default async function create(path: string, options: { authorid?: string; link?: string; projectlink?: string }) {
   logDebug(`Path provided: ${path}`);
@@ -80,4 +81,6 @@ export default async function create(path: string, options: { authorid?: string;
   }
 
   logInfo("Encryption is set to NONE by default, remember to update the manifest with the correct encryption settings and encrypt your files/links before.");
+  logInfo("In order to use the manifest, pass the path to the manifest file when running other commands, for example: fcmf-cli validate <path>");
+  logInfo("Happy manifesting!");
 }
