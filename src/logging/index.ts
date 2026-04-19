@@ -29,27 +29,27 @@ const formatLog = (
 
 const logDebug = (message: string) => {
   if (getLogLevel() >= 4) {
-    console.log(formatLog(" DEBUG ", ansis.bgGray.white, message, ansis.white));
+    console.log(formatLog(" DEBUG    ", ansis.bgGray.white, message, ansis.white));
   }
 };
 
 const logInfo = (message: string) => {
   if (getLogLevel() >= 3) {
-    console.log(formatLog(" INFO  ", ansis.bgBlue.white, message, ansis.blue));
+    console.log(formatLog(" INFO     ", ansis.bgBlue.white, message, ansis.blue));
   }
 };
 
 const logWarn = (message: string) => {
   if (getLogLevel() >= 2) {
     console.log(
-      formatLog(" WARN  ", ansis.bgYellow.white, message, ansis.yellow),
+      formatLog(" WARN     ", ansis.bgYellow.white, message, ansis.yellow),
     );
   }
 };
 
 const logError = (message: string) => {
   if (getLogLevel() >= 1) {
-    console.log(formatLog(" ERROR ", ansis.bgRed.white, message, ansis.red));
+    console.log(formatLog(" ERROR    ", ansis.bgRed.white, message, ansis.red));
   }
 };
 

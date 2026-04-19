@@ -2,6 +2,7 @@ import { logDebug, logError, logInfo } from "../logging/index.js";
 
 import { input } from "@inquirer/prompts";
 import fs from "fs/promises";
+import { questionTheme } from "../logging/theme.js";
 
 export default async function create(path: string, options: { authorid?: string; link?: string; projectlink?: string }) {
   logDebug(`Path provided: ${path}`);
@@ -19,13 +20,15 @@ export default async function create(path: string, options: { authorid?: string;
       }
     } catch (err) {
       // actually good because that means we can create the file
-      logDebug(`No existing file found at path: ${path}. Proceeding with manifest creation.`);
+      logDebug(`No existing file found at path: ${path}.`);
     }
   }
 
+  // todo validate if its 32 char
   if (!options.authorid) {
     options.authorid = await input({
       message: "Enter an author ID/username for the manifest (optional - up to 32 characters, will be generated if left blank):",
+      theme: questionTheme
     });
     logDebug(`Author ID entered: ${options.authorid}`);
   }
@@ -33,6 +36,7 @@ export default async function create(path: string, options: { authorid?: string;
   if (!options.link) {
     options.link = await input({
       message: "Enter a link to the manifest (optional, can be left blank):",
+      theme: questionTheme
     });
     logDebug(`Manifest link entered: ${options.link}`);
   }
@@ -40,6 +44,7 @@ export default async function create(path: string, options: { authorid?: string;
   if (!options.projectlink) {
     options.projectlink = await input({
       message: "Enter a project link/discord server/website/email for the manifest (ANYTHING that can be used to reach the author, optional, can be left blank):",
+      theme: questionTheme
     });
     logDebug(`Project link entered: ${options.projectlink}`);
   }
@@ -52,6 +57,11 @@ export default async function create(path: string, options: { authorid?: string;
     collectionAuthorId: options.authorid || crypto.randomUUID(),
     collectionLink: options.link,
     collectionProjectLink: options.projectlink,
+    encryption: {
+      type: "AES_256_GCM",
+      linkEncryption: "NONE",
+      fileEncryption: "NONE",
+    },
     artists: [],
     albums: [],
     tracks: [],
@@ -68,4 +78,6 @@ export default async function create(path: string, options: { authorid?: string;
     logInfo("No path provided, outputting manifest content to console:");
     console.log(JSON.stringify(manifest, null, 2));
   }
+
+  logInfo("Encryption is set to NONE by default, remember to update the manifest with the correct encryption settings and encrypt your files/links before.");
 }
