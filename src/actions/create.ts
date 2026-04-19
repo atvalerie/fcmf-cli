@@ -3,7 +3,6 @@ import { logDebug, logError, logInfo } from "../logging/index.js";
 import { input } from "@inquirer/prompts";
 import fs from "fs/promises";
 import { questionTheme } from "../logging/theme.js";
-import { log } from "console";
 
 export default async function create(path: string, options: { authorid?: string; link?: string; projectlink?: string }) {
   logDebug(`Path provided: ${path}`);

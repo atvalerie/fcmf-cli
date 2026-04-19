@@ -1,8 +1,6 @@
-import { log } from "node:console";
 import { logDebug, logError, logWarn } from "../logging/index.js";
 import validate from "./validate.js";
 import { filePickerTheme, questionTheme } from "../logging/theme.js";
-import { search } from "@inquirer/prompts";
 import { filePicker } from "../helpers/file-picker.js";
 
 export default async function addTrack(manifestPath: string, trackPath: string) {
