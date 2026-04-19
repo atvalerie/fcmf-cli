@@ -34,7 +34,9 @@
     "@types/node": "^25.6.0"
   },
   "dependencies": {
+    "@inquirer/core": "^11.1.8",
     "@inquirer/prompts": "^8.4.1",
+    "@inquirer/type": "^4.0.5",
     "ansis": "^4.2.0",
     "commander": "^14.0.3",
     "dotenv": "^17.4.2",

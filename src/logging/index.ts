@@ -27,28 +27,28 @@ const formatLog = (
   return `${color.bold`${level}`} ${messageColor(message)}`;
 };
 
-const logDebug = (message: string) => {
-  if (getLogLevel() >= 4) {
+const logDebug = (message: string, disabled: boolean = false) => {
+  if (getLogLevel() >= 4 && !disabled) {
     console.log(formatLog(" DEBUG    ", ansis.bgGray.white, message, ansis.white));
   }
 };
 
-const logInfo = (message: string) => {
-  if (getLogLevel() >= 3) {
+const logInfo = (message: string, disabled: boolean = false) => {
+  if (getLogLevel() >= 3 && !disabled) {
     console.log(formatLog(" INFO     ", ansis.bgBlue.white, message, ansis.blue));
   }
 };
 
-const logWarn = (message: string) => {
-  if (getLogLevel() >= 2) {
+const logWarn = (message: string, disabled: boolean = false) => {
+  if (getLogLevel() >= 2 && !disabled) {
     console.log(
       formatLog(" WARN     ", ansis.bgYellow.white, message, ansis.yellow),
     );
   }
 };
 
-const logError = (message: string) => {
-  if (getLogLevel() >= 1) {
+const logError = (message: string, disabled: boolean = false) => {
+  if (getLogLevel() >= 1 && !disabled) {
     console.log(formatLog(" ERROR    ", ansis.bgRed.white, message, ansis.red));
   }
 };

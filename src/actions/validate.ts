@@ -3,19 +3,19 @@ import fs from "fs/promises";
 import { MANIFEST_VERSION, type FlaxCollectionManifest } from "../types/spec_interfaces.js";
 import { isValidTimestamp } from "../helpers/index.js";
 
-export default async function validate(path: string) {
+export default async function validate(path: string, runningAsCommand: boolean = false): Promise<void | boolean> {
   const issues: string[] = [];
-  logDebug(`Path provided: ${path}`);
+  logDebug(`Path provided: ${path}`, runningAsCommand);
 
   if (!path) {
-    logError("No path provided. Please provide a path to the manifest file.");
-    logError("Usage: fcmf-cli validate <path>");
+    logError("No path provided. Please provide a path to the manifest file.", runningAsCommand);
+    logError("Usage: fcmf-cli validate <path>", runningAsCommand);
     return;
   }
   
   const file = await fs.readFile(path, "utf-8").catch((err) => {
-    logError(`Error reading file at path: ${path}. Please ensure the file exists and is readable.`);
-    logError(`Error details: ${err.message}`);
+    logError(`Error reading file at path: ${path}. Please ensure the file exists and is readable.`, runningAsCommand);
+    logError(`Error details: ${err.message}`, runningAsCommand);
     return;
   });
 
@@ -58,10 +58,12 @@ export default async function validate(path: string) {
   // TODO: add validation for artists, albums and tracks
 
   if (issues.length > 0) {
-    logError("Validation failed with the following issues:");
-    issues.forEach((issue) => logError(`- ${issue}`));
+    logError("Validation failed with the following issues:", runningAsCommand);
+    issues.forEach((issue) => logError(`- ${issue}`, runningAsCommand));
+    return false;
   } else {
-    logDebug("Manifest is valid.");
-    logInfo("Manifest validation successful! No issues found.");
+    logDebug("Manifest is valid.", runningAsCommand);
+    logInfo("Manifest validation successful! No issues found.", runningAsCommand);
+    return true;
   }
 }

@@ -6,6 +6,7 @@ import 'dotenv/config';
 // action imports
 import validate from './actions/validate.js';
 import create from './actions/create.js';
+import addTrack from './actions/add-track.js';
 
 const program = new Command();
 
@@ -32,5 +33,15 @@ program
   .action((path, options) => {
     create(path, options);
   });
+
+program
+  .command('add-track')
+  .description('Add a track to an existing FCMF manifest file')
+  .argument('<manifestPath>', 'Path to the existing FCMF manifest file')
+  .argument('[trackPath]', 'Path to the track file to be added, if not provided, you will be asked to choose a file')
+  .action((manifestPath, trackPath) => {
+    addTrack(manifestPath, trackPath);
+  });
+
 
 program.parse(process.argv);
