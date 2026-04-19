@@ -1,0 +1,17 @@
+{
+  "version": "0.3.1",
+  "collectionId": "895a51cd-82f5-4e1a-beee-1e8a618b9f88",
+  "createdAt": "1776609913069",
+  "updatedAt": "1776609913069",
+  "collectionAuthorId": "valeriesh",
+  "collectionLink": "https://valerie.sh",
+  "collectionProjectLink": "https://valerie.sh",
+  "encryption": {
+    "type": "AES_256_GCM",
+    "linkEncryption": "NONE",
+    "fileEncryption": "NONE"
+  },
+  "artists": [],
+  "albums": [],
+  "tracks": []
+}
