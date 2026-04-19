@@ -1,7 +1,9 @@
 import { logDebug, logError, logWarn } from "../logging/index.js";
 import validate from "./validate.js";
-import { filePickerTheme, questionTheme } from "../logging/theme.js";
+import { filePickerTheme } from "../logging/theme.js";
 import { filePicker } from "../helpers/file-picker.js";
+import fs from "fs/promises";
+import { parseFile } from "music-metadata";
 
 export default async function addTrack(manifestPath: string, trackPath: string) {
   logDebug(`Manifest path provided: ${manifestPath}`);
@@ -28,4 +30,33 @@ export default async function addTrack(manifestPath: string, trackPath: string) 
     });
     logDebug(`Track path entered: ${trackPath}`);
   }
+
+  if (!trackPath) {
+    logError("No track path provided. Please provide a path to the track file.");
+    return;
+  }
+
+  const file = await fs.readFile(trackPath).catch((err) => {
+    logError(`Error reading track file at path: ${trackPath}. Please ensure the file exists and is readable.`);
+    logError(`Error details: ${err.message}`);
+    return;
+  });
+
+  if (!file) {
+    return;
+  }
+
+  logDebug("Parsing audio file...");
+
+  const parsedFile = await parseFile(trackPath).catch((err) => {
+    logError(`Error parsing audio file at path: ${trackPath}. Please ensure the file is a valid audio file.`);
+    logError(`Error details: ${err.message}`);
+    return;
+  });
+
+  if (!parsedFile) {
+    return;
+  }
+
+  
 }

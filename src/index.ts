@@ -43,5 +43,4 @@ program
     addTrack(manifestPath, trackPath);
   });
 
-
 program.parse(process.argv);
