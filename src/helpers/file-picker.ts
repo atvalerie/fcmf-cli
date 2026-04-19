@@ -297,6 +297,10 @@ export const filePicker = createPrompt<string, FilePickerConfig>((config, done) 
       ? `${prefix} ${message} ${theme.style.answer(selected?.fullPath ?? currentDir)}`
       : `${prefix} ${message}`;
 
+  if (status === "done") {
+    return promptLine;
+  }
+
   const bottom = [
     dirLine,
     filterLine,

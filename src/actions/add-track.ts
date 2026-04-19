@@ -1,7 +1,7 @@
 import { log } from "node:console";
 import { logDebug, logError, logWarn } from "../logging/index.js";
 import validate from "./validate.js";
-import { questionTheme } from "../logging/theme.js";
+import { filePickerTheme, questionTheme } from "../logging/theme.js";
 import { search } from "@inquirer/prompts";
 import { filePicker } from "../helpers/file-picker.js";
 
@@ -26,6 +26,7 @@ export default async function addTrack(manifestPath: string, trackPath: string) 
     trackPath = await filePicker({
       message: "Select a track file:",
       root: process.cwd(),
+      theme: filePickerTheme
     });
     logDebug(`Track path entered: ${trackPath}`);
   }
